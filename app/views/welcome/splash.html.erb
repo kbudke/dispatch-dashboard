@@ -1,0 +1,296 @@
+
+<!-- Needs to be moved to CSS resources -->
+<style>
+    body,
+    html {
+        width: 100%;
+        height: 100%;
+    }
+
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: 700;
+        color:;
+    }
+
+    .topnav {
+        font-size: 14px; 
+    }
+
+    .col-lg-12 {
+
+    }
+
+    .lead {
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    .intro-header {
+        padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+        padding-bottom: 50px;
+        text-align: center;
+        color: #f8f8f8;
+        background: url(https://s3-us-west-2.amazonaws.com/truckdemotest/assets/images/windingroad.jpg) no-repeat center center;
+        background-size: cover;
+
+    }
+
+    .intro-message {
+        position: relative;
+        padding-top: 20%;
+        padding-bottom: 20%;
+
+    }
+
+    .intro-message > h1 {
+        margin: 0;
+        text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+        font-size: 5em;
+    }
+
+    .intro-divider {
+        width: 400px;
+        border-top: 1px solid #f8f8f8;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .intro-message > h3 {
+        text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    }
+
+    @media(max-width:767px) {
+        .intro-message {
+            padding-bottom: 15%;
+        }
+
+        .intro-message > h1 {
+            font-size: 3em;
+        }
+
+        ul.intro-social-buttons > li {
+            display: block;
+            margin-bottom: 20px;
+            padding: 0;
+        }
+
+        ul.intro-social-buttons > li:last-child {
+            margin-bottom: 0;
+        }
+
+        .intro-divider {
+            width: 100%;
+        }
+    }
+
+    .network-name {
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: 400;
+        letter-spacing: 2px;
+    }
+
+    .content-section-a {
+        padding: 50px 0;
+        background-color: #f8f8f8;
+    }
+
+    .content-section-b {
+        padding: 50px 0;
+        border-top: 1px solid #e7e7e7;
+        border-bottom: 1px solid #e7e7e7;
+    }
+
+    .section-heading {
+        margin-bottom: 30px;
+    }
+
+    .section-heading-spacer {
+        float: left;
+        width: 200px;
+        border-top: 3px solid #e7e7e7;
+    }
+
+    .banner {
+        padding: 100px 0;
+        color: #f8f8f8;
+
+        background: url(../img/banner-bg.jpg) no-repeat center center;
+        background-size: cover;
+    }
+
+    .banner h2 {
+        margin: 0;
+        text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+        font-size: 3em;
+    }
+
+    .banner ul {
+        margin-bottom: 0;
+    }
+
+    .banner-social-buttons {
+        float: right;
+        margin-top: 0;
+    }
+
+    @media(max-width:1199px) {
+        ul.banner-social-buttons {
+            float: left;
+            margin-top: 15px;
+        }
+    }
+
+    @media(max-width:767px) {
+        .banner h2 {
+            margin: 0;
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+            font-size: 3em;
+        }
+
+        ul.banner-social-buttons > li {
+            display: block;
+            margin-bottom: 20px;
+            padding: 0;
+        }
+
+        ul.banner-social-buttons > li:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    footer {
+        padding: 50px 0;
+    }
+
+    p.copyright {
+        margin: 15px 0 0;
+    }
+</style>
+
+
+<body>
+    <!-- Header -->
+    <a name="about"></a>
+    <div class="intro-header">
+        <div class="container" style="background: transparent;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>SpeediOS</h1>
+                        <h3>Fleet Management &amp; Logistics Suite</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a href="/dashboard" class="btn btn-default btn-lg"><i class="fa fa-tachometer fa-fw"></i> <span class="network-name">Dashboard Demo</span></a>
+                            </li>
+                            <li>
+                                <a href="/dashboard" class="btn btn-default btn-lg"><i class="fa fa-sign-in fa-fw"></i> <span class="network-name">Login</span></a>
+                            </li>
+                            <li>
+                                <a href="<%=new_user_registration_path%>" class="btn btn-default btn-lg"><i class="fa fa-user-plus fa-fw"></i> <span class="network-name">Sign Up</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.intro-header -->
+
+    <!-- Page Content -->
+    <a  name="services"></a>
+    <div class="content-section-a">
+        <div style="margin-right: 75px; margin-left: 75px;">
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Creating Vehicle Pickups<br>Is A Breeze</h2>
+                    <p class="lead">Vehicle images, weights, dimensions, and other helpful information is loaded automatically into our system for optimized performance calculations.  Google Address Verification Makes Entering Addresses Simple</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <br /><br />
+                    <select id="years">
+                        <% ((1990..(Date.today.year+1)).to_a).each do |x| %>
+                            <option value="<%=x %>"><%=x%></option>
+                        <% end %>
+                    </select>
+                    <select id="makes">
+                    </select>
+                    <select id="models">
+                    </select>
+                    <select id="styles">
+                    </select>
+                    <br/>
+                    <br />Origin: 
+                    <input class="form-control" id="searchTextField"></input>
+                    <br />Destination:
+                    <input class="form-control" id="searchTextField2"></input>
+                </div>
+            </div>
+        </div>
+    <!-- /.content-section-a -->
+
+    <div class="content-section-b" style="background:steelblue;">
+        <div class="row">   
+            <div style="margin-right: 75px; margin-left: 75px; color: white;">
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Waypoint Optimization &amp; Fleet Routing</h2>
+                    <p class="lead">Google Maps routing and fleet optimization makes managing your business easy. Automatically create routes that fit your requirements. Owner Operator or Fleet Manager, Speedios makes managing your fleet a no brainer.</p>
+                </div>
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive" src="https://s3-us-west-2.amazonaws.com/truckdemotest/assets/images/gmaps.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.content-section-b -->
+
+    <div class="content-section-c">
+        <div style="margin-right: 75px; margin-left: 75px;">
+            <div class="row">
+                <div class="col-lg-4 col-sm-4">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Load Vehicles Quickly<br><div style="text-align: right">And Save Time</div></h2>
+                    <p class="lead">Optimized database built to expedite creating dispatch orders.</p>
+                </div>
+                <div class="col-lg-7 col-lg-offset-1 col-sm-8">
+                    <table class="table-striped sortable autobox" style="width: 95%">
+                        <thead>
+                        <tr><th>Car Name</th>
+                        <th>Origin</th>
+                        <th>Destination</th>
+                        <th>Miles</th>
+                        <th>Bid</th></tr>
+                      </thead>
+                      <tbody>
+                        <% @vehicles.each do |vehicle| %>
+                        <% if vehicle.truck_id == 'nil' or vehicle.truck_id.empty? %>
+                          <tr>
+                            <td><%= link_to "#{vehicle.yearManufactured} #{vehicle.make} #{vehicle.model}".split.map(&:capitalize).join(' '), vehicle %></td>
+                            <td><%=vehicle.origin%></td>
+                            <td><%=vehicle.destination%></td>
+                            <td><%=vehicle.distance%></td>
+                            <td>$<%=vehicle.distance%></td>
+                          <% end %>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.content-section-c -->
+</body>
+
+</html>

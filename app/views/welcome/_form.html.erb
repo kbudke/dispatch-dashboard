@@ -1,0 +1,15 @@
+<%= form_for(vehicle, :remote => true,:authenticity_token => true) do |f| %>
+  <% if vehicle.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
+
+      <ul>
+      <% vehicle.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+	<%= f.collection_select(:truck_id, DeliveryTruck.where(user_id: current_user, currentState: "Available"), :id, :name, { :include_blank => "Select Truck",:id => "selector"},{:style => "width: 125px; display:inline;", :onChange => 'javascript: this.form.button.click(); loadTables();', :class => "selectTruck"}) %>
+	<%= f.submit "Add to Cart", class: "btn btn-primary", id: "button"%>
+<% end %>

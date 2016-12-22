@@ -1,0 +1,71 @@
+<!--Vehicle table for ALL vehicles -->
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <div class="well">
+      <select id="changer" onChange="if(this.selectedIndex!=0) self.location=this.options[this.selectedIndex].value">
+        <option selected disabled>Filter By Destination</option>
+        <option value="/">All Destinations</option>
+        <% @vehicles.each do |vehicle| %>
+          <option value=<%= "/?destination=#{URI.escape(vehicle.destination)}"%>><%= vehicle.destination %></option>
+        <%end%>
+      </select>
+      <table class="table-striped sortable" width="100%">
+        <thead>
+          <th width="20%"><h4>Vehicle</h4></th>
+          <th width="25%"><h4>Origin City</h4></th>
+          <th width="25%"><h4>Destination City</h4></th>
+          <th width="16%"><h4>Trip Distance</h4></th>
+          <th width="15%"><h4>Profit Estimate</h4></th>
+          <th width="25%"><h4>Pick Up With</h4></th>
+        </thead>
+        <tbody>
+          <%@vehicles.each do |vehicle|%>
+            <tr>
+              <td><h5><%= link_to vehicle.name, vehicle %></h5></td>
+              <td><h5><%= vehicle.origin.sub!(", United States", "") %></h5></td>
+              <td><h5><%= vehicle.destination.sub!(", United States", "") %></h5></td>
+              <td><h5><%= vehicle.distance %></h5></td>
+              <td><h5><%= number_to_currency(vehicle.distance-((vehicle.distance / 3 )*2.25))%></h5></td>
+              <% @i = 0 %>
+              <td><%= render 'form', vehicle: vehicle %></td>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="row" id="dashtrucks">
+  <div class="col-sm-10 col-sm-offset-1">
+    <div class="well">
+      <table class="table-striped sortable" width="100%">
+        <thead>
+          <tr>
+            <th><h4>Delivery Truck</h4></th>
+            <th><h4>Status</h4></th>
+            <th><h4>Remaining Capacity</h4></th>
+            <th><h4>Action</h4></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @delivery_trucks.each do |truck| %>
+            <% @newWeight = truck.weightCapacity.to_i %>
+            <% @count = 0 %>
+            <% @vehicles.each do |vehicle| %>
+              <% if vehicle.truck_id.to_i == truck.id.to_i %>
+                <% @count += 1 %>
+                <% @newWeight -= vehicle.actualWeight.to_i %>
+              <% end %>
+              <% truck.update(currentWeight: @newWeight.to_i) %>
+            <% end %>
+            <tr>
+              <td><h5><%= link_to truck.name, truck %></h5></td>
+              <td><%= render 'truckform', delivery_truck: truck%></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

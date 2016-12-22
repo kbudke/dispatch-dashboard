@@ -1,0 +1,217 @@
+/*
+// This is a manifest file that'll be compiled into application.js, which will include all the files
+// listed below.
+//
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+// or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// compiled file. JavaScript code in this file should be added after the last require_* statement.
+//
+// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
+// about supported directives.
+//
+//= require jquery
+//= require jquery_ujs
+//= require sorttable
+//= require moment
+//= require bootstrap-datetimepicker
+//= require jquery.geocomplete
+// disabled require turbolinks
+// require local_time
+//= require_tree .
+*/
+
+//Google Maps API 
+var map;
+
+//Init Maps
+function initMap() {
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+  map = new google.maps.Map(document.getElementById('mapbox'), {
+    zoom: 6
+  });
+  directionsDisplay.setMap(map);
+  calculateAndDisplayRoute(directionsService, directionsDisplay);
+}
+//Calculate Route
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+    var waypts = [];
+    var checkboxArray = document.getElementById('waypoints');
+    for (var i = 0; i < checkboxArray.length; i++) {
+        if (checkboxArray.options[i].selected) {
+          waypts.push({
+            location: checkboxArray[i].value,
+            stopover: true
+          });
+        }
+    }
+    console.log(document.getElementById('start').value)
+    console.log(document.getElementById('end').value)
+    directionsService.route({
+        origin: document.getElementById('start').value,
+        destination: document.getElementById('end').value,
+        waypoints: waypts,
+        optimizeWaypoints: true,
+        travelMode: 'DRIVING'
+    }, function(response, status) {
+      if (status === 'OK') {
+        directionsDisplay.setDirections(response);
+        var route = response.routes[0];
+        var summaryPanel = document.getElementById('directions-panel');
+        summaryPanel.innerHTML = '';
+        // For each route, display summary information.
+      for (var i = 0; i < route.legs.length; i++) {
+        var routeSegment = i + 1;
+        summaryPanel.innerHTML += '<div class="autobox"><b>Waypoint ' + routeSegment +
+            '</b><br>' + route.legs[i].start_address + ' to ' + route.legs[i].end_address + '<br>'+ route.legs[i].distance.text + '<br><br></div>';
+        }
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+}
+
+//Google Address AutoComplete API
+function initialize() {
+  var input = document.getElementById('searchTextField');
+  var autocomplete = new google.maps.places.Autocomplete(input);
+
+  var input2 = document.getElementById('searchTextField2');
+  var autocomplete2 = new google.maps.places.Autocomplete(input2);
+}
+
+//Edmunds API
+const EDMUNDS_API_KEY = "<%= ENV['EDMUNDS_API_KEY'] %>";
+
+//Starts on #years selection, cascades down as fields are populated
+function get_makes(year) {
+    url = 'https://api.edmunds.com/v1/api/vehicle/makerepository/findmakesbymodelyear?year=' + year + '&api_key=' + EDMUNDS_API_KEY + '&fmt=json';
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: '',
+        dataType: 'jsonp',
+        success: function(data) {
+            $('#makes').empty();
+            $('#makes').append("<option>Select Make</option>");
+            $.each(data.makeHolder, function(i, val) {
+                $('#makes').append("<option value='" + data.makeHolder[i].niceName + "'>" + data.makeHolder[i].name + "</option>");
+            });
+            $('#makes').removeAttr('disabled');
+            console.log('Step 2: Makes select was populated and enabled');
+        }
+    });
+}
+function get_models(make, year) {
+    url = 'https://api.edmunds.com/v1/api/vehicle/modelrepository/findmodelsbymakeandyear?make=' + make + '&year=' + year + '&api_key=' + EDMUNDS_API_KEY + '&fmt=json';
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: '',
+        dataType: 'jsonp',
+        success: function(data) {
+            $('#models').empty();
+            $('#models').append("<option>Select Model</option>");
+            $.each(data.modelHolder, function(i, val) {
+                $('#models').append("<option value='" + data.modelHolder[i].niceName + "'>" + data.modelHolder[i].name + "</option>");
+            });
+            $('#models').removeAttr('disabled');
+            console.log('Step 4: Models select was populated and enabled');
+        }
+    });
+}
+function get_styles(make, model, year) {
+    url = 'https://api.edmunds.com/v1/api/vehicle/stylerepository/findstylesbymakemodelyear?make=' + make + '&model=' + model + '&year=' + year + '&api_key=' + EDMUNDS_API_KEY + '&fmt=json';
+    $.ajax({
+        type: "POST",
+        timeout: 20000,
+        url: url,
+        data: '',
+        dataType: 'jsonp',
+        success: function(data) {
+            $('#styles').empty();
+            $('#styles').append("<option>Select Trim</option>");
+            $.each(data.styleHolder, function(i, val) {
+                console.log(data.styleHolder[i]);
+                $('#styles').append("<option value='" + data.styleHolder[i].id + "'>" + data.styleHolder[i].name + "</option>");
+            });
+            $('#styles').removeAttr('disabled');
+            console.log('Step 6: Styles(trim) select was populated and enabled');
+        }
+    });
+}
+function get_style_details(style_id) {
+    url = 'https://api.edmunds.com/api/vehicle/v2/styles/'+style_id+'/equipment?availability=standard&equipmentType=OTHER&name=SPECIFICATIONS&fmt=json&api_key=' + EDMUNDS_API_KEY ;
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: '',
+        dataType: 'jsonp',
+        success: function(data) {
+            console.log(data);
+            for(var i = 0; i < data['equipment'][0]['attributes'].length; i++)
+                {
+                  if(data['equipment'][0]['attributes'][i].name == 'Curb Weight')
+                  {
+                    index = i;
+                  }
+                }
+
+            $('#weight').val(JSON.parse(data['equipment'][0]['attributes'][index].value.replace(/(\{|,)\s*(.+?)\s*:/g, '$1 "$2":')));
+            console.log('Step 8: Collecting Style/trim data');
+        }
+    });
+}
+//Gets Image after trim has been selected, posts to hidden select form #details
+function get_image_details(style_id) {
+    url = 'https://api.edmunds.com/v1/api/vehiclephoto/service/findphotosbystyleid?styleId=' + style_id + '&shottype=PROFILE&fmt=json&api_key=' + EDMUNDS_API_KEY;
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: '',
+        dataType: 'jsonp',
+        success: function(data) {
+            $('#details').val('https://media.ed.edmunds-media.com' + (data[0]['photoSrcs'][0]));
+            console.log(data.length);
+            console.log('Step 8: Collecting Style/trim data');
+        }
+    });
+}
+
+
+$(document).ready(function() { 
+
+    //Drives Edmunds Selection API
+    $('#years').change(function() {
+        console.log('Step 1: Year ' + $("#years :selected").val() + ' was selected');
+        get_makes($("#years :selected").val());
+    });
+    
+    $('#makes').change(function() {
+        console.log('Step 3: Make ' + $("#makes :selected").val() + ' was selected');
+        get_models($("#makes :selected").val(), $('#years :selected').val());
+    });
+    $('#models').change(function() {
+
+        console.log('Step 5: Model ' + $("#models :selected").val() + ' was selected');
+        get_styles($('#makes :selected').val(), $("#models :selected").val(), $('#years :selected').val());
+    });
+    $('#styles').change(function() {
+        console.log('Step 7: Style ' + $("#styles :selected").val() + ' was selected');
+        get_style_details($('#styles :selected').val());
+        get_image_details($('#styles :selected').val());
+    });
+
+    //Sign in animation
+    $('.message a').click(function(){
+       $('.special').animate({height: "toggle", opacity: "toggle"}, "slow");
+    });
+
+    //Initialize Google Maps
+    initialize(); 
+    initMap();
+
+});
+

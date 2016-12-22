@@ -1,0 +1,72 @@
+// Place all the styles related to the Delivery_Trucks controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+
+.padleft {
+	padding-left: 35px;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.tableimage {
+	height: 225px;
+	float: right;
+}
+
+
+.row{
+    overflow: hidden; 
+}
+
+
+
+.tab-content > .tab-pane {
+    display: block;
+    height:0;
+    margin-top: 20px;
+    overflow:hidden;
+}
+
+.tab-content > .active {
+    display: block;
+    height:auto;
+}
+
+#mapbox {
+  width:100%;
+  height:480px;
+}
+
+well {
+	padding: 0px !important;
+}
+
+#displaytable {
+display: table;
+width: 100%;
+}
+
+.tablecell {
+display: table-cell;
+float: none;
+}
+
+.is-table-row {
+display: table;
+
+}
+
+.is-table-row [class*="col-"] {
+float: none;
+display: table-cell;
+vertical-align: top;
+}
+
+
+.gm-style img { max-width: none; }
+.gm-style label { width: auto; display: inline; }

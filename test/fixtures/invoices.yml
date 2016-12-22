@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  client: MyString
+  truck_id: 1
+  userId: 1
+  total: 9.99
+  invoice_items: MyText
+  dispatchdate: MyString
+
+two:
+  client: MyString
+  truck_id: 1
+  userId: 1
+  total: 9.99
+  invoice_items: MyText
+  dispatchdate: MyString

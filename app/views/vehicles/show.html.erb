@@ -1,0 +1,85 @@
+<body class= "bioRhyme">
+
+   <p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row-fluid">
+    <div class="span8 well">
+      <ul class="nav nav-tabs">
+        <li class="active"> <a href="#home" data-target="#home" data-toggle="tab">Home</a></li>
+        <li><a href="#maptab" data-target="#routetab" data-toggle="tab">Route Details</a></li>
+        <li><a href="#cargo" data-target="#cargo" data-toggle="tab">Contract Details</a></li>
+      </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="home">
+          <div class="col-md-6">
+            <table width="100%">
+              <tr>
+                <td><h3><%= @vehicle.yearManufactured%> <%= @vehicle.make.capitalize  %> <%= @vehicle.model.capitalize  %></h3> Contact: <%= @vehicle.user.email %></td>
+                </tr>
+              <tr>
+              <td>Pick-Up Location:</td>
+                <td><%= @vehicle.origin %></td>
+              </tr>
+              <tr>
+                <td>Destination:</td>
+                <td><%= @vehicle.destination %></td>
+                </tr>
+              <tr>
+                <td>VIN:</td>
+                <td><%= @vehicle.vinNumber %></td>
+                </tr>
+              <td>Actual Weight:</td>
+                <td><%= @vehicle.actualWeight %></td>
+              </tr>
+              <tr>
+               <td>Distance</td>
+                <td><%= @vehicle.distance %></td>
+              </tr>
+              <tr>
+                <td><br /></td>
+              </tr>
+            </table>
+            <br />
+          </div>
+          <div class="col-md-6">
+            <%= image_tag @vehicle.image, class: "tableimage" %>
+            </div>
+      
+        <div id="mapbox"><div id="routemap"></div></div>
+        </div>
+        <div class="tab-pane" id="routetab"> 
+          <div class="col-md-6">
+            <div id="directions-panel"></div>
+          </div>
+          <div class="tab-pane" id="cargo">  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-2 col-sm-offset-10">
+    <h3><%= link_to 'Back', delivery_trucks_path %></h3>
+  </div>
+</div>
+<div class="wellnavtextpad">
+  <%= link_to 'Edit', edit_vehicle_path(@vehicle), class: "" %>
+  <%= link_to 'Destroy', @vehicle, method: :delete, data: { confirm: 'Are you sure?' } %>
+</div>
+<%= link_to 'Back', vehicles_path, class: "btn btn-default" %>
+
+<select hidden id="start">
+    <option hidden selected><%= @vehicle.origin %></option>
+</select>
+
+<select hidden id="waypoints">
+  <option hidden selected><%= @vehicle.destination %></option>
+</select>
+
+<select hidden id="end">
+  <option hidden selected><%= @vehicle.destination %></option>
+</select>
+
+</body>

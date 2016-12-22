@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-sm-2">
+    <ul class="nav navbar-side">
+      <li class="nav navbar navbar-nav"> <a data-target="#billoflading" data-toggle="tab">Bill of Lading</a></li>
+      <li class="active nav navbar navbar-nav"> <a data-target="#thisinvoice" data-toggle="tab">Invoice</a></li>
+    </ul>
+  </div>
+  <div class="col-sm-10">   
+    <div class="tab-content" >
+      <div class="tab-pane" id="billoflading" style="overflow: auto;">
+        <%= render  'bol' %>
+      </div>
+      <div class="tab-pane active" id="thisinvoice"> 
+        <%= render  'invoice_form' %>
+      </div>
+    </div>
+  </div>
+</div>

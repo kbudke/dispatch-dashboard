@@ -1,0 +1,331 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require jquery-ui
+ *= require_self
+ */
+
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "bootstrap-datetimepicker";
+@import "font-awesome";
+
+.container {
+  opacity: 1 !important;
+}
+.partial {
+  width:"200px";
+}
+
+.navbar-side {
+  display: table;
+  display: fixed;
+  height: 100%;
+  padding-top: 50px;
+  font-size: 1.0em;
+  border-right: solid 1px;
+  border-left: solid 1px;
+  border-color: #dddddd;
+}
+
+.modal-lg {
+  width: 80%;
+}
+
+
+     /* Appearance */
+     body, table { font-family: sans-serif;}
+     .table-striped { border-collapse: collapse; border: 1px solid #38678f; border-radius:10px; font-size: .9em;}
+     td { padding: 2px;}
+     th {padding: 8px; background: steelblue;  font-weight: lighter;
+  text-shadow: 0 1px 0 #38678f;
+  color: white;
+  border: 1px solid #38678f;
+  box-shadow: inset 0px 1px 2px #568ebd;transition: all 0.2s;}
+    
+ 
+     
+     /* Scrollability of table */
+   table { width: 100%; } /* fixed width table */
+    thead tr { width: 100%; display:block;} /* makes it sizeable */
+     .sortable tbody { 
+       max-height: 350px; /* height of scrollable area */
+       overflow: scroll;
+       display:block;
+      width: 100%; /* fill the box */
+     }
+
+     tbody { 
+      width: 100%; /* fill the box */
+      display: block;
+     }
+
+     thead th { width: 250px;} /* fixed width for THs */
+     tbody td { width: 234px;} /* fixed width for TDs */
+     /* the tbody needs to be 16px less than the thead, for the scrollbar */
+ 
+     
+    .smallbody { 
+       display: block; /* makes it sizeable */
+       height: 200px; /* height of scrollable area */
+       overflow: scroll;
+      width: 100%; /* fill the box */
+     }
+
+.table-striped {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.shadow {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.blue-background { background: steelblue; color: white; }
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #E7E9F2; // Choose your own color here
+ }
+
+.container {
+ 	background: rgba(255,255,255,1);
+
+ }
+
+.bioRhyme {
+font-family: 'BioRhyme', serif; 
+}
+
+
+.mtop-25 {
+  margin-top:25px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.font3 { 
+    font-size: 1.5em;
+}
+
+
+
+
+
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  background: steelblue;
+}
+
+.jumbotron {
+  background: url(https://s3-us-west-2.amazonaws.com/truckdemotest/assets/images/testjumbo3.jpg) no-repeat center center;
+  height: 275px;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  margin-bottom: 0px;
+}
+
+.button_with_image_save {
+     background: url(../images/carHauler-btn.png) #f2efa8 no-repeat 10px 6px;
+     text-indent:30px;
+     display:block;
+     cursor: pointer;
+ }
+
+.navbartextpad {
+	padding-top: 9px;
+  padding-right: 6px;
+}
+
+a {
+  color: #000000 !important;
+}
+
+
+.dropdown-toggle {
+  color: steelblue !important;
+}
+.dropdown-menu {
+  color: steelblue !important;
+}
+.wellnavtextpad {
+	padding-top: 5 px;
+}
+
+
+.navbar {
+	margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#map {
+	width: 50%;
+	height: 210px;
+	float: right;
+}
+
+.dropdown {
+  color: steelblue !important;
+}
+
+.labelcolor {
+  color: steelblue !important;
+}
+
+.centerfy {
+  text-align: center;
+  content-align: center;
+}
+
+.black {
+  color: #333333 !important;
+}
+
+#footer .content p {
+    margin-bottom: 0
+}
+
+
+
+.autobox {
+  border: solid 1px;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 15px;
+  align-content: center;
+  width: 100%;
+  height: 100%;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,f6f6f6+47,ededed+100;White+3D+%231 */
+background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */  
+}
+
+.sidebox {
+  border: solid 1px;
+  border-radius: 5px;
+  padding: 2px;
+  margin-top: 15px;
+  align-content: center;
+  width: 100%;
+  height: 100%;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,f6f6f6+47,ededed+100;White+3D+%231 */
+background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */  
+}
+
+.box-car {
+  height: 250px;
+  border: solid 1px;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 15px;
+  align-content: center;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,f6f6f6+47,ededed+100;White+3D+%231 */
+background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+
+}
+
+
+.box {
+  height: 100%;
+  width: auto;
+  border: solid 1px;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 15px;
+  padding-bottom: 15px;
+  align-content: center;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,f6f6f6+47,ededed+100;White+3D+%231 */
+background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+
+}
+
+
+.padleft {
+  padding-left: 10px;
+}
+
+html {
+    margin: 0;
+    height: 100%;
+}
+
+navbar {
+  background: steelblue
+}
+
+.navbar-side{
+    height : 100vh;
+}
+
+.navbar-side {
+  width: 100%;
+}
+
+
+#order-panel {
+  width: 250px;
+}
+
+#order-header {
+  height: 25px;
+  padding:0;
+}
+
+.map {
+ 
+}
+
+.table-striped tr {
+  border-bottom: 1px solid #cccccc;
+}
+.table-striped tr:last-child {
+  border-bottom: 0px;
+}
+.table-striped td {
+  padding-left: 8px;
+  border-right: 1px solid #cccccc;
+  transition: all 0.2s;
+}
+
+table {
+  table-layout:fixed;
+}
+
+td {
+  word-break: break-word;
+}
+
+.draggable {
+  display:inline-block;
+}
+
+

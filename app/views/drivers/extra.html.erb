@@ -1,0 +1,89 @@
+<table class="sortable autobox">
+<thead></thead>
+
+<tbody>
+  <tr><th>Driver name</th><th><%= driver.driver_name %></th></tr>
+  <tr><td>Driver</td><td><%= driver.driver_id %></td></tr>
+  <tr><td>Driver dob</td><td><%= driver.driver_dob %></td></tr>
+  <tr><td>Driver address</td><td><%= driver.driver_address %></td></tr>
+  <tr><td>Email</td><td><%= driver.email %></td></tr>
+  <tr><td>Phone number</td><td><%= driver.phone_number %></td></tr>
+  <tr><td>Trailer capacity</td><td><%= driver.trailer_capacity %></td></tr>
+</tbody>
+<tfoot>
+  <tr><td><%= link_to 'Show', driver %></td>
+        <td><%= link_to 'Edit', edit_driver_path(driver) %></td>
+        <td><%= link_to 'Destroy', driver, method: :delete, data: { confirm: 'Are you sure?' } %></td></tr>
+</tfoot>
+</table>
+
+
+<table class="sortable" width="100%">
+
+    <tr>
+      <th>Driver name</th>
+      <th>Driver</th>
+      <th>Driver dob</th>
+      <th>Driver address</th>
+      <th>Email</th>
+      <th>Phone number</th>
+      <th>Trailer capacity</th>
+      <th colspan="3"></th>
+    </tr>
+ 
+
+  <tbody>
+    <% @drivers.each do |driver| %>
+      <tr>
+        <td><%= driver.driver_name %></td>
+        <td><%= driver.driver_id %></td>
+        <td><%= driver.driver_dob %></td>
+        <td><%= driver.driver_address %></td>
+        <td><%= driver.email %></td>
+        <td><%= driver.phone_number %></td>
+        <td><%= driver.trailer_capacity %></td>
+        <td><%= link_to 'Show', driver %></td>
+        <td><%= link_to 'Edit', edit_driver_path(driver) %></td>
+        <td><%= link_to 'Destroy', driver, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+        </div>
+
+<br>
+
+  <% if can? :create, Driver %>
+    <%= link_to 'New Driver', new_driver_path, remote: true %>
+  <% end %>
+
+<% else %>
+  <%# render 'not_allowed' %>
+<% end %>
+
+</div>
+
+
+
+
+
+  <h1>Drivers List</h1>
+  <table class="sortable">
+    <thead><tr><th>Driver Name</th><th>Driver Email</th><th>Driver Phone Number</th></thead>
+    <tbody>
+      <% @drivers.each do |driver| %>
+      <tr><td><%= driver name %></td><td><%= driver email %></td><td><%= driver number %></td></tr>
+      <tr><td><%= @driver.name %></td><td><%= @driver.email %></td><td><%= @driver.number %></td></tr>
+      <tr><td><%= @driver.name %></td><td><%= @driver.email %></td><td><%= @driver.number %></td></tr>
+      <tr><td><%= @driver.name %></td><td><%= @driver.email %></td><td><%= @driver.number %></td></tr>
+      <tr><td><%= @driver.name %></td><td><%= @driver.email %></td><td><%= @driver.number %></td></tr>
+      <tr><td><%= @driver.name %></td><td><%= @driver.email %></td><td><%= @driver.number %></td></tr>
+      <tr><td><%= @driver.name %></td><td><%= @driver.email %></td><td><%= @driver.number %></td></tr>
+      <tr><td><%= @driver.name %></td><td><%= @driver.email %></td><td><%= @driver.number %></td></tr>
+      <tr><td><%= @driver.name %></td><td><%= @driver.email %></td><td><%= @driver.number %></td></tr>
+      <tr><td><%= @driver.name %></td><td><%= @driver.email %></td><td><%= @driver.number %></td></tr>
+      <tr><td><%= @driver.name %></td><td><%= @driver.email %></td><td><%= @driver.number %></td></tr>
+    </tbody>
+  </table>
+  <p>Built with my <a href="http://www.kryogenix.org/code/browser/sorttable/">sorttable</a>, and taking CSS inspiration from <a href="http://www.imaputz.com/cssStuff/bigFourVersion.html">Terence Ordona's "big four version" scrolltable tables</a>.</p>
+  <p> &mdash; <a href="http://www.kryogenix.org/">Stuart Langridge</a>

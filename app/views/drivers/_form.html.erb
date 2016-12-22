@@ -1,0 +1,51 @@
+<%= form_for driver do |f| %>
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3" style="text-align: center;">
+      <div class="well shadow">
+       <h1>New Driver</h1>
+      <div class="row">
+      <br />
+      <div class="col-sm-6">
+
+  <div class="form-group">
+    <%= f.text_field :driver_name, placeholder: "Driver Name", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.text_field :driver_id, placeholder: "Driver ID", class: "form-control"  %>
+  </div>
+
+  <div class="form-group">
+    <%= f.text_field :driver_dob, placeholder: "Driver D.O.B.", class: "form-control"  %>
+  </div>
+
+  <div class="form-group">
+    <%= f.text_area :driver_address, placeholder: "Driver Address", class: "form-control"  %>
+  </div>
+</div>
+<div class="col-sm-6">
+  <div class="form-group">
+    <%= f.text_field :email, placeholder: "Driver Email", class: "form-control"  %>
+  </div>
+
+  <div class="form-group">
+    <%= f.number_field :phone_number, placeholder: "Phone Number", class: "form-control"  %>
+  </div>
+
+  <div class="form-group">
+    <%= f.number_field :trailer_capacity, placeholder: "Trailer Capacity", class: "form-control"  %>
+  </div>
+
+  <div class="form-group" style="padding-top:10px; padding-left: 30px; text-align: left;">
+    <strong>Upload Vehicle Image: </strong>
+    <%= f.file_field :image %>
+  </div>
+</div>
+</div>
+
+  <div class="actions" style="float: right; padding-top: 5px;">
+    <%= f.button :Submit, class: "btn btn-success" %>
+  </div>
+  <%= link_to 'Back', drivers_path, class: "btn btn-primary", style: "float:right; margin-top:5px; margin-right:5px;" %>
+<br /><br />
+<% end %>

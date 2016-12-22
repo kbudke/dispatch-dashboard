@@ -1,0 +1,33 @@
+<%= form_for(company) do |f| %>
+  <% if company.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(company.errors.count, "error") %> prohibited this company from being saved:</h2>
+
+      <ul>
+      <% company.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.text_field :companyName, placeholder: "Company Name" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.text_field :companyAddress, placeholder: "Company Address", id: "searchTextField" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.text_field :companyBillingAddress, placeholder: "Billing Address", id: "searchTextField2" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.text_field :companyCustomId, placeholder: "Custom ID" %>
+  </div>
+
+  <div class="actions">
+    <%= f.button :Submit, class: "btn btn-success" %>
+  </div>
+<% end %>

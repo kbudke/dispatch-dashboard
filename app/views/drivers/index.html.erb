@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-sm-2">
+    <ul class="nav navbar-side">
+      <li class="active nav navbar navbar-nav"> <a href="#home" data-target="#home" data-toggle="tab">All Drivers   <br /> <br />   <br /> <br /></a></li>
+
+      <li class="nav navbar navbar-nav"><i class="fa fa-tasks navbar-nav" style="padding-left:15px;"> 
+        <%= link_to new_driver_path do %>  
+        Add Driver
+        <% end %>
+      </i></li>
+    </ul>
+  </div>
+    <div class="col-sm-10">
+<br />
+  <h3>Drivers Table</h3>
+  <table class="sortable table-striped autobox" style="width: 95%">
+    <thead>
+    <tr>
+      <th>Driver Name</th>
+      <th>Driver Phone Number</th>
+      <th>Driver Email</th>
+      <th>Edit / Delete</th>
+    </tr>
+    </thead>
+      <tbody id= "drivers">
+        <%= render @drivers %>
+      </tbody>
+  </table>
+</div>
+

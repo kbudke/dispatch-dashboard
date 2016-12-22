@@ -1,0 +1,110 @@
+<% getWaypoints() %>
+<div class="row">
+  <div class="col-sm-2">
+    <ul class="nav navbar-side">
+      <li class="active"> <a data-target="#home" data-toggle="tab">Home</a></li>
+      <li><a data-target="#routetab" data-toggle="tab">Route Details</a></li>
+      <li><a data-target="#cargo" data-toggle="tab">Cargo Details</a></li>
+    </ul>
+  </div>
+  <div class="col-sm-10" >
+      <div class="tab-content">
+        <div class="tab-pane active map" id="home" style="width: 97%;">
+          <div class="autobox map" style="min-height: 350px; border-top-right-radius:10px; border-top-left-radius: 10px;">
+            <div class="col-md-6">
+              <table>
+                <tr>
+                  <td width="50%"><h2><%= "#{@delivery_truck.name}" %></h2></td>
+                </tr>
+                <tr>
+                  <td><h4><%= @delivery_truck.yearManufactured %> <%= @delivery_truck.make %> <%= @delivery_truck.model %></h4></td>
+                </tr>
+
+                <tr>
+                  <td><strong><%= "VIN: #{@delivery_truck.vinNumber}" %></strong></td>
+                </tr>
+                <tr>
+                  <td>Located in <%= @delivery_truck.currentLocation %></td>
+                  <td><%= @delivery_truck.weightCapacity %>Lb Capacity</td>
+                </tr>
+
+                <tr>
+                  <td>Dispatch Date: <%= @delivery_truck.scheduledDepartureTime %></td>
+                  <td>Gets <%= @delivery_truck.avgMPG %> MPG</td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <%= image_tag @delivery_truck.image, class: "tableimage" %>
+            </div>
+          </div>
+  
+          <div class="map" id="mapbox" style="border-bottom-left-radius: 10px; border-bottom-right-radius:10px;"><div class="map" id="routemap" style="width: 80%;"></div></div>
+        </div>
+
+        <div class="tab-pane" id="routetab" > 
+          <div class="col-md-6">
+            <div id="directions-panel"></div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="cargo">
+          <div class="col-sm-12">
+            <div class="autobox">  
+              <table class="table-striped" width="100%">
+                <thead>
+                  <th>Car Name</th>
+                  <th>Origin</th>
+                  <th>Destination</th>
+                  <th>Miles</th>
+                  <th>Bid</th>
+                  <th>Profit </th>
+                </thead>
+                <tbody>
+                  <% @myVehicles.each do |vehicle| %>
+                    <tr>
+                      <td><%= link_to "#{vehicle.yearManufactured} #{vehicle.make} #{vehicle.model}".split.map(&:capitalize).join(' '), vehicle %></td>
+                      <td><%=vehicle.origin%></td>
+                      <td><%=vehicle.destination%></td>
+                      <td><%=vehicle.distance%></td>
+                      <td>$<%=vehicle.distance%></td>
+                      <td><%= (vehicle.distance-((vehicle.distance / @delivery_truck.avgMPG)*2.25))%></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+<div class="row">
+  <div class="col-sm-2 col-sm-offset-10">
+  <br />
+    <h4 style="display:inline;"><%= link_to 'Edit ', edit_delivery_truck_path, class: "fa fa-pencil" %> </h4>
+    <h5 style="display:inline;"> <i class="fa fa-arrow-left" aria-hidden="true"><%= link_to ' Back', delivery_trucks_path %></i></h5>
+  </div>
+</div>
+</div>
+
+<select hidden id="start">
+    <option hidden selected><%= @delivery_truck.origin %></option>
+</select>
+
+<select hidden multiple id="waypoints">
+  <% @waypoints.uniq do |wp| %>
+    <% if wp == @delivery_truck.origin %>
+    <% else %>
+    <option hidden selected><%= wp %> </option> 
+    <%end%>
+  <% end %>
+</select>
+
+<select hidden id="end">
+  <option hidden selected><%= @destination %> </option>
+</select>
+
+

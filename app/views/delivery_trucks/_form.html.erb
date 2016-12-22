@@ -1,0 +1,165 @@
+<!-- Needs to be moved to CSS -->
+<style>
+.form-group {
+  width:100%;
+}
+.form-control {
+  width:90%;
+}
+th{
+  width:50%;
+}
+</style>
+
+<%= form_for(delivery_truck) do |f| %>
+  <% if delivery_truck.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(delivery_truck.errors.count, "error") %> prohibited this delivery_truck from being saved:</h2>
+
+      <ul>
+      <% delivery_truck.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<br /> <br />
+
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2" style="text-align: center;">
+      <div class="well shadow">
+       <h1>New Delivery Truck</h1>
+      <div class="row">
+      <br />
+      <div class="col-sm-6">
+        <div class="form-group">
+          <%= f.text_field :name, placeholder: "Name", class: "form-control" %>
+        </div>
+
+       <div class="form-group">
+          <%= f.text_field :make, placeholder: "Make", class: "form-control"  %>
+        </div>
+     
+       <div class="form-group">
+          <%= f.text_field :model, placeholder: "Model", class: "form-control"  %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.text_field :vinNumber, placeholder: "Vin Number", class: "form-control"  %>
+        </div>
+       
+        </div>
+        <div class="col-sm-6">
+        <div class="form-group">
+          <%= f.text_field :origin, placeholder: "Origin Location", class: "form-control", id: "searchTextField"   %>
+        </div>
+        <div class="form-group">
+          <%= f.text_field :avgMPG, placeholder: "Avg MPG", class: "form-control"  %>
+        </div>
+        <div class="form-group">
+          <%= f.number_field :yearManufactured, placeholder: "Year Manufactured", class: "form-control"  %>
+        </div>
+       <div class="form-group">
+          <%= f.text_field :weightCapacity, placeholder: "Weight Capacity", class: "form-control"  %>
+        </div>
+        </div>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :payloadEmptyWeight, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :originLocation, class: "form-control"  %>
+        </div>
+
+        <div class="form-group">
+          <%= f.hidden_field :currentLocation, placeholder: "Current Location" %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :destinationLocation, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :yearAquired, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :carFax, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :maintenanceHistory, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :nextMaintenance, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :highwayMPG, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :cityMPG, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :user_id, value: current_user.id, class: "form-control"  %>
+        </div>
+
+        <div class="form-group">
+          <%= f.hidden_field :scheduledDepartureTime, placeholder: "Scheduled Departure Time" %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :estimatedArrivalTime, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :requestedArrivalTime, class: "form-control" %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :currentState, class: "form-control" %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :driverId, class: "form-control" %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :occupied_slots, class: "form-control" %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :currentWeight, class: "form-control" %>
+        </div>
+        <div class="field">
+          <%= f.hidden_field :minimumPossibleWeight, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :maximumPossibleWeight, class: "form-control"  %>
+        </div>
+
+        <div class="field">
+          <%= f.hidden_field :destination, class: "form-control"  %>
+        </div>
+ 
+        <div class="actions" style="display:inline; float:right; padding-top: 5px; padding-right: 5%;">
+          <%= f.button :Submit, class: "btn btn-success" %>
+        </div>
+
+        <i class= "btn btn-primary" style="display:inline; float:right; margin-top: 5px; margin-right: 5px;"><%= link_to 'Back', delivery_trucks_path %></i>
+
+        <div class="form-group" style="text-align:left; ">
+          <strong>Upload Vehicle Image: </strong>
+          <%= f.file_field :image %>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+<% end %>

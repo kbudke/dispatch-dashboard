@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-sm-2">
+    <ul class="nav navbar-side">
+      <li class="active nav navbar navbar-nav"> <a href="#billoflading" data-target="#billoflading" data-toggle="tab">Bill of Lading</a></li>
+      <li class="nav navbar navbar-nav"> <a href="#invoicetab" data-target="#invoicetab" data-toggle="tab">Invoice  <br /> <br />   <br /> <br /></a></li>
+
+      <li class="nav navbar navbar-nav"><i class="fa fa-tasks navbar-nav" style="padding-left:15px;"> 
+        <%= link_to new_driver_path do %>  
+        Add Driver
+        <% end %>
+      </i></li>
+    </ul>
+  </div>
+    <div class="col-sm-10">
+       <div class="tab-content"  >
+          <div class="tab-pane active" id="billoflading"> 
+            <% render  'bol', order_id: :order_id %>
+          </div>
+            <div class="tab-pane" id="invoicetab"> 
+            <% render  'invoice_form', order_id: :order_id %>
+            </div>
+           </div></div></div> 

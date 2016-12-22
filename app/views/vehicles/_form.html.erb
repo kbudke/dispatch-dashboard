@@ -1,0 +1,71 @@
+
+<%= form_for(vehicle) do |f| %>
+  
+  <%= f.select :yearManufactured, (1990..(Date.today.year+1)).to_a, {}, :id => "years", :style => "float: left;" %>
+  <%= f.select :make, "makes", {}, :id => "makes", :style => "float: left;"%>
+  <%= f.select :model, "Model", {}, :id => "models", :style => "float: left;"%>
+  <%= f.select :details, "Style", {}, :id => "styles", :style => "float: left;" %>
+
+  <div class="field-group">
+    <%= f.collection_select(:company_id, Company.all, :id, :companyName, { :include_blank => "Company"}) %>
+  </div>
+  <div class="field-group">
+    <%= f.text_field :name, placeholder: "Name", class: "form-control" %>
+  </div>
+
+  <div class="field-group">
+    <%= f.text_field :origin, placeholder: "Origin", id: "searchTextField", class: "form-control" %>
+  </div>
+  
+  <div class="field-group">
+    <%= f.text_field :destination, placeholder: "Desination", id: "searchTextField2", class: "form-control" %>
+  </div>
+
+  <div class="field-group">
+    <%= f.text_field :vinNumber, placeholder: "VIN", class: "form-control" %>
+  </div>
+
+  <div class="field-group">
+    <%= f.hidden_field :minimumPossibleWeight %>
+  </div>
+
+  <div class="field-group">
+    <%= f.hidden_field :maximumPossibleWeight %>
+  </div>
+
+  <div class="field-group">
+    <%= f.hidden_field :actualWeight, placeholder: "Weight", :id => "weight" %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.hidden_field :origin_latitude, class: "form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.hidden_field :origin_longitude, class: "form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.hidden_field :distance, class: "form-control",value: "#{@vehicle.distance}" %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.hidden_field :destination_latitude, class: "form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.hidden_field :truck_id, class: "form-control" %>
+  </div>
+
+   <div class="field form-group">
+   <%= f.hidden_field :remote_image_url, id: "details" %>
+  </div>
+ 
+  <div class="actions" style="float:right;">
+    <%= f.submit class: "btn btn-success" %>
+  </div>
+
+   <i class = "btn btn-primary" style="float:right;margin-right:5px;">
+<%= link_to 'Back', vehicles_path %></i>
+  <br />
+<% end %>

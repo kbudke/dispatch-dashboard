@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  make: MyString
+  model: MyString
+  yearManufactured: 1
+  origin: MyString
+  destination: MyString
+  vinNumber: MyString
+  minimumPossibleWeight: 1.5
+  maximumPossibleWeight: 1.5
+  actualWeight: 1.5
+
+two:
+  name: MyString
+  make: MyString
+  model: MyString
+  yearManufactured: 1
+  origin: MyString
+  destination: MyString
+  vinNumber: MyString
+  minimumPossibleWeight: 1.5
+  maximumPossibleWeight: 1.5
+  actualWeight: 1.5

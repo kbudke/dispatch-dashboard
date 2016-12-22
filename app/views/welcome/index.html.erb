@@ -1,0 +1,472 @@
+ 
+<!--Code for draggable widgets, need to migrate to JS -->
+<script>
+  $( function() {
+    $( ".draggable" ).draggable();
+  } );
+
+  $(function(){
+    var sPositions = localStorage.positions || "{}",
+    positions = JSON.parse(sPositions);
+  $.each(positions, function (id, pos) {
+    $("#" + id).css(pos)
+  })
+
+  $("#draggable2").draggable({
+      containment: "#row",
+      revert : "valid",
+
+      scroll: false,
+      stop: function (event, ui) {
+          positions[this.id] = ui.position
+          localStorage.positions = JSON.stringify(positions)
+      }
+  });
+
+  $("#draggable3").draggable({
+      containment: "#row",
+      revert : "valid",
+      scroll: false,
+      stop: function (event, ui) {
+          positions[this.id] = ui.position
+          localStorage.positions = JSON.stringify(positions)
+      }
+  });
+
+  $("#draggable4").draggable({
+      containment: "#row",
+      revert : "valid",
+      scroll: false,
+      stop: function (event, ui) {
+          positions[this.id] = ui.position
+          localStorage.positions = JSON.stringify(positions)
+      }
+  });
+});
+</script>
+
+<!--Side Navbar -->
+<div class="row">
+  <div class="col-sm-2 no-float">
+    <ul class="nav navbar-side">
+      <li class="active nav navbar navbar-nav"> <a data-target="#contracts" data-toggle="tab">Available Orders</a></li>
+      <li class="nav navbar navbar-nav"><a data-target="#fleettab" data-toggle="tab">My Fleet</a></li>
+      <li class="nav navbar navbar-nav"><a data-target="#invoicing" data-toggle="tab">Invoicing</a></li>
+      <li class="nav navbar navbar-nav" id="widget"><br /><br /><br /><br />
+        <div style="padding-left: 15px; padding-right: 15px;"><strong>Pending Orders</strong></div></li>
+      <ul style="list-style-type: none;list-style-position:inside;margin:0;padding:0;">
+        <% if @delivery_trucks.any? %>
+          <% @delivery_trucks.each do |truck| %>
+            <% if truck.occupied_slots.nil? %>
+            <%else%>
+              <% if truck.occupied_slots > 0 && truck.currentState.to_s == "Available" %>
+                <% @pendingcount +=1 %><br />
+                <li><a data-toggle="modal" data-target="#myModal<%=truck.id%>" data-controls-modal="#myModal_<%=truck.id%>" data-keyboard="false"><span class="button nav navbar navbar-nav"><p style=" padding-left: 15px; padding-right: 15px; margin-top: 5px; font-size: 80%; margin-bottom: 5px;"><%= truck.name %></p></span></a></li>
+              <%end%>
+            <%end%>
+          <%end%>
+        <%end%>
+      </ul>
+    </ul>
+  </div>
+
+  <!--Main Content -->
+  <div class="col-sm-10 tab-bg no-float" id="vehicleTable">
+    <div class="tab-content"  >
+
+      <!-- Truck Modal needs to be made dry, included again below -->
+      <% @delivery_trucks.each do |truck| %>
+        <div class="modal fade" id="myModal<%=truck.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Pending Load Configuration</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table-striped sortable autobox" width="100%">
+                  <thead>
+                  <tr>
+                    <th>Vehicle</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Weight</th>
+                    <th>Action</th>
+                    <th>Confirm Vehicle</th>
+                    </tr>
+                  </thead>
+                  <tbody>  
+                    <% @vehicles.each do |vehicle|%>
+                      <% if vehicle.truck_id.to_s == truck.id.to_s && vehicle.currentState != "Dispatched"%>
+                          <tr>   
+                          <td><div class="wrap"><%= link_to vehicle.name, vehicle %></h5></div></td>
+                          <td><%= vehicle.origin %></td>
+                          <td><%= vehicle.destination %></td>
+                          <td><%= vehicle.actualWeight %></h5></td>
+                          <td><%= render 'form', vehicle: vehicle %></td>
+                          <% time = Time.new %>
+                          <!-- dont miss this do here -->
+                          <%= form_tag add_to_cart_path, :remote => true do %>
+                            <%= hidden_field_tag :vehicle_id, vehicle.id %>
+                            <%= hidden_field_tag :bid_total, vehicle.distance.to_i %>
+                            <%= hidden_field_tag :order_id, (vehicle.truck_id.to_s+(time.year.to_s+time.month.to_s+time.day.to_s)).to_i %>
+                            <%= hidden_field_tag :truck_id, vehicle.truck_id.to_s %>
+                            <td><%= submit_tag "Confirm Vehicle", class: "btn btn-primary" %></td>
+                          <% end %>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table><br /> 
+                <div class="pull-right">Assign Driver : <%= select_tag :driver_id, options_from_collection_for_select(@drivers, "id", "driver_name"),:prompt => "Select Driver"%>
+                </div><br />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel Order</button>
+                 <%= link_to "Finalize Load", view_order_path, class: "btn btn-primary" %>
+              </div>
+            </div>                  
+          </div>
+        </div>
+
+        <!--Update Weight for truck, needs to be refactored -->
+        <% @newWeight = truck.weightCapacity.to_i %>
+        <% @count = 0 %>
+        <% @vehicles.each do |vehicle| %>
+          <% if vehicle.truck_id.to_i == truck.id.to_i && vehicle.currentState != "Dispatched" %>
+            <% @count += 1 %>
+            <% @newWeight -= vehicle.actualWeight.to_i %>
+          <% end %>
+          <% truck.update(currentWeight: @newWeight.to_i) %>
+          <% truck.update(occupied_slots: @count) %>
+        <% end %>              
+      <%end%><!-- end truck modal -->
+
+
+      <!-- Open Contracts Tab -->
+      <div class="tab-pane active" id="contracts"> 
+        <!--Widget Row -->
+        <div class="row" id="row">
+          <!-- empty space reserved for status widget -->
+          <div class="col-sm-5" style="margin-left: 5%;">
+          </div>
+          <!-- this code is for the disabled status widget   
+          <div class="col-sm-5" style="background: steelblue; border-radius: 15px; height:90px; margin-left: 5%; margin-top: 15px;" ></div>
+          -->
+
+          <div class="col-sm-1 ui-widget-content draggable" id="draggable2" style="background: #F9A635; margin-left: 10%; border-radius:15px; margin-top: 13px; min-width:110px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+            <h2 style="display:inline;" id="widget2"><%= @pendingcount %></h2>
+            <h5>Pending Dispatches</h5>
+          </div>
+
+          <div class="col-sm-1 widget3 draggable" id="draggable3" style="background: steelblue; color: white; border-radius:15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); margin-top: 13px; margin-left: 1%;  min-width:110px;">
+            <h2 style="display:inline;" id="widget3"><%=@unpaidOrders.size%></h2>
+            <h5>Payments Pending</h5>
+          </div>
+
+          <div class="col-sm-1 widget4 draggable" id="draggable4" style="background: #FFD658; border-radius:15px; margin-left: 1%; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); margin-top: 13px;  min-width:110px;">
+            <h2 style="display:inline;" id="widget4">3</h2>
+            <h5>Ready for Archive</h5>
+          </div>
+        </div>
+
+        <!--Dashboard Vehicle Orders Display -->
+        <div class="row">
+          <div class="col-sm-12" style="width: 95%">
+            <p><br />
+              <h3 style="display: inline;">Available Orders </h3><h2 style="display: inline;"><span style="display: inline;" class="badge"><%= @tableVehicleCount %></span></h2> 
+              <select id="changer" style="float: right;width:20%;max-width:80%;margin-top: 20px;" onChange="if(this.selectedIndex!=0) self.location=this.options[this.selectedIndex].value">
+                <option selected disabled>Filter By Destination</option>
+                <option value="/">All Destinations</option>
+                <% @vehicles.each do |vehicle| %>
+                <% next unless vehicle.currentState == "Available" %>
+                  <option value=<%= "/?destination=#{URI.escape(vehicle.destination).to_s}"%>><%= vehicle.destination %></option>
+                <%end%>
+              </select></nobr>
+              <select id="changer" style="float: right;width:20%;max-width:90%;margin-top: 20px;" onChange="if(this.selectedIndex!=0) self.location=this.options[this.selectedIndex].value">
+                <option selected disabled>Filter By Origin</option>
+                <option value="/">All Origins</option>
+                <% @vehicles.each do |vehicle| %>
+                <% next unless vehicle.currentState == "Available" %>
+                  <option value=<%= "/?origin=#{URI.escape(vehicle.origin).to_s}"%>><%= vehicle.origin %></option>
+                <%end%>
+              </select></nobr>
+            </p>
+            <table class="table-striped sortable autobox"  width="100%">
+              <thead>
+              <tr>
+                  <th>Vehicle</h5></th>
+                  <th>Origin</th>
+                  <th>Destination</th>
+                  <th>Distance</th>
+                  <th>Pick Up With</th>
+                  </tr>
+              </thead>
+              <tbody id="dashtable">
+                <% @tableVehicles.each do |vehicle| %>
+                <% next unless vehicle.currentState == "Available" %>
+                  <tr>
+                    <td><%= link_to vehicle.name, vehicle %></td>
+                    <td><%= vehicle.origin %></td>
+                    <td><%= vehicle.destination  %></td>
+                    <td><%= vehicle.distance %></td>
+                    <% @i = 0 %>
+                    <td><div style="width: 0px;"><%= render 'form', vehicle: vehicle %></div></td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Dashboard Fleet Vehicles -->
+        <div class="row" id="dashtrucks">
+          <div class="col-sm-12" style="width: 95%">
+            <h3>Delivery Trucks</h3>
+              <table class="table-striped sortable autobox" width="100%">
+                <thead>
+                <tr>
+                    <th>Delivery Truck</th>
+                    <th>Cargo</th>
+                    <th>Weight</th>
+                    <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <% @delivery_trucks.each do |truck| %>
+                    <% @newWeight = truck.weightCapacity.to_i%>
+                    <% @count = 0 %>
+                    <% @vehicles.each do |vehicle| %>
+                      <% if vehicle.truck_id.to_i == truck.id.to_i && vehicle.currentState != "Dispatched"%>
+                        <% @count += 1 %>
+                        <% @newWeight -= vehicle.actualWeight.to_i %>
+                      <% end %>
+                      <% truck.update(currentWeight: @newWeight.to_i) %>
+                    <% end %>
+                    <tr>
+                      <td><%= link_to truck.name, truck %></td>
+                    <% if truck.currentState == "Dispatched" %>
+                      <td><%= link_to "Invoice/BOL", bol_path(:order_id => Order.where(["truck_id = ?", truck.id]).last) %></td>
+                      <td><i><%= @newWeight %></i></td>
+                      <td><%= render 'truckform', delivery_truck: truck, :locals => { :f => truck } %></td>
+                    <% else %>
+                    <td><% if @count > 0 %>
+                    <a data-toggle="modal" data-target="#myModal<%=truck.id%>" data-controls-modal="#myModal_<%=truck.id%>" data-keyboard="false" href="#">
+                      <span class="button">
+                        <%= @count %><%= " Vehicles Pending" %>
+                      </span></a><% else %>Ready</td><% end %>
+                    <td><%= @newWeight %></td>
+                    <td><%= render 'truckform', delivery_truck: truck, :locals => { :f => truck } %></td>
+                  <% end %>
+                    </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fleet Tab -->
+      <div class="tab-pane" id="fleettab"> 
+        <div class="row">
+          <div class="col-sm-12" style="width: 95%">
+          <!-- Second Trucks modal, needs to be DRY -->
+          <% @delivery_trucks.each do |truck| %>
+              <div class="modal fade" id="myModal<%=truck.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content" >
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Pending Load Configuration</h5>
+                    </div>
+                    <div class="modal-body">
+                      <table class="table-striped sortable autobox" width="100%" id="order_table">
+                        <thead>
+                        <tr>
+                          <th>Vehicle</th>
+                          <th>Origin</th>
+                          <th>Destination</th>
+                          <th>Weight</th>
+                          <th>Action</th>
+                          <th>Confirm Vehicle</th>
+                          </tr>
+                        </thead>
+                        <tbody>  
+                          <% @vehicles.each do |vehicle|%>
+                            <% if vehicle.truck_id.to_s == truck.id.to_s && vehicle.currentState != "Dispatched"%>
+                                <tr>   
+                                <td><%= link_to vehicle.name, vehicle %></h5></td>
+                                <td><%= vehicle.origin %></td>
+                                <td><%= vehicle.destination %></td>
+                                <td><%= vehicle.actualWeight %></h5></td>
+                                <td><%= render 'form', vehicle: vehicle %></td>
+                                <% time = Time.new %>
+                                <!-- dont miss this do here -->
+                                <%= form_tag add_to_cart_path, :remote => true do %>
+                                  <%= hidden_field_tag :vehicle_id, vehicle.id %>
+                                  <%= hidden_field_tag :bid_total, vehicle.distance.to_i %>
+                                  <%= hidden_field_tag :dispatch_date, (time.month.to_s+"/"+time.day.to_s + "/" +time.year.to_s) %>
+                                  <%= hidden_field_tag :order_id, (vehicle.truck_id.to_s+(time.year.to_s+time.month.to_s+time.day.to_s)).to_i %>
+                                  <%= hidden_field_tag :truck_id, vehicle.truck_id.to_s %>
+                                  <td><%= submit_tag "Confirm Vehicle", class: "btn btn-primary" %></td>
+                                <% end %>
+                              </tr>
+                            <% end %>
+                          <% end %>
+                        </tbody>
+                      </table>
+                      <br /> <div class="pull-right">Assign Driver : <%= select_tag "drivers", options_from_collection_for_select(@drivers, "id", "driver_name"),:prompt => "Select Driver"%></div>
+                      <br /><%= text_field :start_time, id: "datetimepicker1", placeholder: "Schedule Pickup Time" %>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel Order</button>
+                       <%= link_to "Finalize Load", view_order_path, class: "btn btn-primary" %>
+                    </div>
+                  </div>                  
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Trucks Table on Fleet Tab -->
+        <div class="row" id="dashtrucks">
+          <div class="col-sm-12" style="width: 95%">
+          <br /><br />
+          <h3>Fleet Management</h3>
+            <table class="table-striped sortable autobox" width="100%">
+              <thead>
+              <tr>
+                  <th>Delivery Truck</th>
+                  <th>Cargo</th>
+                  <th>Weight</th>
+                  <th>Status</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <% @delivery_trucks.each do |truck| %>
+                  <% @newWeight = truck.weightCapacity.to_i %>
+                  <% @count = 0 %>
+                  <% @vehicles.each do |vehicle| %>
+                    <% if vehicle.truck_id.to_i == truck.id.to_i && vehicle.currentState != "Dispatched" %>
+                      <% @count += 1 %>
+                      <% @newWeight -= vehicle.actualWeight.to_i %>
+                    <% end %>
+                    <% truck.update(currentWeight: @newWeight.to_i) %>
+                  <% end %>
+                  <tr>
+                    <td><%= link_to truck.name, truck %></td>
+                    <% if truck.currentState == "Dispatched" %>
+                      <td><%= "Dispatched" %></td>
+                      <td><i><%= @newWeight %></i></td>
+                      <td><%= link_to "Dispatch Form", truck %></td>
+                    <% else %>
+                    <td><% if @count > 0 %>
+                    <a data-toggle="modal" data-target="#myModal<%=truck.id%>" data-controls-modal="#myModal_<%=truck.id%>" data-keyboard="false" href="#">
+                      <span class="button">
+                        <%= @count %><%= " Vehicles Pending" %>
+                      </span></a><% else %>Ready</td><% end %>
+                    <td><%= @newWeight %></td>
+                    <td><%= render 'truckform', delivery_truck: truck, :locals => { :f => truck } %></td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- Invoice/Order Tab (includes calendar) -->
+      <div class="tab-pane" id="invoicing"> 
+      <div class="row">
+      <!--Invoice/Order Table -->
+        <div class="col-md-12" style="width: 95%">
+        <br /><br />
+          <h3>Invoices</h3>
+            <table class="table-striped sortable autobox" width="100%">
+              <thead>
+              <tr>
+                  <th width="10%">Invoice ID</th>
+                  <th>Created On</th>
+                  <th>Dispatch Date</th>
+                  <th>Order Total</th>
+                  <th>Truck ID</th>
+                  <th>Order Items</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <% @orders.each do |order| %>
+                  <tr>
+                    <td><%= link_to order.id, documents_path(:order_id => order.id) %></td>
+                    <td><%= local_time(order.created_at) %></td>
+                    <td><%= order.dispatch_date %></td>
+                    <td><%= number_to_currency order.grand_total%></td>
+                    <td><%= order.truck_id %></td>
+                    <td><a data-toggle="modal" data-target="#myModal<%=order.id%>" data-controls-modal="#myModal_<%=order.id%>" data-keyboard="false" href="#"><span class="button"><%= "#{order.order_items.length} Vehicles" %></span></a></h5></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table><br /> 
+
+            <!-- Calendar (See simple_calendar view for formatting)-->
+            <h3> Calendar</h3>
+            <%= month_calendar attribute: "created_at", id: "calendartable", events: @orders.where(user_id: current_user) do |date, orders| %>
+              <%= date.day %>
+              <br /><br />
+              <% if orders.length > 0 %>
+                <div style="font-size: .8em;">
+                <%= "#{orders.length} dispatched" %>
+                </div>
+              <% end %>
+            <% end %> 
+          </div>
+        </div>
+      </div>
+
+        <!--Order Modal -->
+        <% @orders.each do |order| %>
+          <div class="modal fade" id="myModal<%=order.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Loaded Vehicles</h5>
+                </div>
+                <div class="modal-body">
+                  <table class="table-striped sortable autobox" width="100%">
+                    <thead>
+                    <tr>
+                        <th width="20%"><h5>Vehicle</h5></th>
+                        <th width="25%"><h5>Origin</h5></th>
+                        <th width="25%"><h5>Destination</h5></th>
+                        <th width="10%"><h5>Distance</h5></th>
+                        <th width="10%"><h5>Weight</h5></th>
+                        <th width="10%"><h5>Bid</h5></th>
+                        </tr>
+                    </thead>
+                    <tbody>  
+                    <%  order.order_items.each do |k,v| %>
+                      <tr>
+                        <td><%= "#{Vehicle.find(k).make.capitalize} #{Vehicle.find(k).model.capitalize}" %></td>
+                        <td><%= "#{Vehicle.find(k).origin}" %></td>
+                        <td><%= "#{Vehicle.find(k).destination}" %></td>
+                        <td><%= "#{Vehicle.find(k).distance}" %></td>
+                        <td><%= "#{Vehicle.find(k).actualWeight}"%></td>
+                        <td><%= "#{number_to_currency Vehicle.find(k).distance}" %></td>
+                      </tr>
+                    <% end %>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <br />
+      </div>
+    </div>
+  </div>
+</div>

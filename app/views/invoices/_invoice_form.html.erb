@@ -1,0 +1,181 @@
+
+<ul class="nav nav-tabs">
+  <% @order.order_items.each do |k,v| %>
+    <li><a data-target="#inv<%= Vehicle.find(k).make %>" data-toggle="tab"><%= "#{Vehicle.find(k).make.capitalize} #{Vehicle.find(k).model.capitalize}" %></a></li>
+  <% end %>
+</ul>
+
+  <div class="tab-content">
+
+  <% first = true %>
+  <% @order.order_items.each do |k,v| %>
+    <% @vehicle = Vehicle.find(k) %>
+    <% if first == true %>
+        <div class="tab-pane active" id="<%= "inv#{Vehicle.find(k).make}" %>">
+      <% first = false %>
+    <% else %>
+        <div class="tab-pane" id="<%= "inv#{Vehicle.find(k).make}" %>">
+    <%end%>
+
+  <div class="row">
+  <div class="col-xs-12">
+      <div class="row">
+        <div class="col-xs-6">
+          <h1>Invoice</h1>
+          <h1><small>Invoice #001</small></h1>
+        </div>
+        <div class="col-xs-6">
+          <%= image_tag @vehicle.image %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4>From: <a href="#"><%= current_user.username %></a></h4>
+            </div>
+            <div class="panel-body" style="height:150px;">
+              <p>
+                Address- <%= current_user.address %><br>
+               
+                more- <%= current_user.email %> <br>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 ">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4>To : <a href="#">Client Name</a></h4>
+            </div>
+            <div class="panel-body" style="height:150px;">
+              <p>
+                Address- <%# address %><br>
+                details- <%# details %> <br>
+                more- <%# more info %> <br>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      <div class="col-sm-12">
+      <!-- / end client details section -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>
+              <h4>Service</h4>
+            </th>
+            <th>
+              <h4>Description</h4>
+            </th>
+            <th>
+              <h4>Hrs/Qty</h4>
+            </th>
+            <th>
+              <h4>Rate/Price</h4>
+            </th>
+            <th>
+              <h4>Sub Total</h4>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Car Pick up</td>
+            <td><a href="#">type of car or vehicle</a></td>
+            <td class="text-right">-</td>
+            <td class="text-right">$200.00 <%# desired invoice %></td>
+            <td class="text-right">$200.00</td>
+          </tr>
+          <tr>
+            <td>Multi Vehcile</td>
+            <td><a href="#">Details of Vehicles</a></td>
+            <td class="text-right">10</td>
+            <td class="text-right">75.00</td>
+            <td class="text-right">$750.00</td>
+          </tr>
+          <tr>
+            <td>Drop Off's</td>
+            <td><a href="#">info on drop offs</a></td>
+            <td class="text-right">5</td>
+            <td class="text-right">50.00</td>
+            <td class="text-right">$250.00</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </div>
+      <div class="row text-right">
+        <div class="col-xs-2 col-xs-offset-8">
+          <p>
+            <strong>
+            Sub Total : <%= number_to_currency @order.subtotal %> <br>
+            TAX : <%= number_to_currency @order.sales_tax %> <br>
+            Total : <%= number_to_currency @order.grand_total %> <br>
+            </strong>
+          </p>
+        </div>
+        <div class="col-xs-2">
+          <strong>
+          <%= number_to_currency @order.subtotal %><br>
+         <br>
+          N/A <br>
+          <%= number_to_currency @order.grand_total %><br>
+          </strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h4>Bank details</h4>
+            </div>
+            <div class="panel-body">
+              <p>Your Name: <%= current_user.username %></p>
+              <p>Bank Name</p>
+              <p>SWIFT : --------</p>
+              <p>Account Number : --------</p>
+              <p>IBAN : --------</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="span7">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h4>Contact Details</h4>
+              </div>
+              <div class="panel-body">
+                <p>
+                  Email :<%= current_user.email %> <br><br>
+                  Mobile : <%= current_user.phone_number %><br> <br>
+                  Company : <a href="https://"><%= current_user.username %> </a>
+                </p>
+                <h4>Payment should be made by Bank Transfer</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="row">
+<div class="col-xs-12">
+<select id="status" onChange="<% order_update_path %>">
+  <option value="Paid">Paid</option>
+  <option value="Unpaid">Unpaid</option>
+  <option value="Archived">Archive</option>
+</select>
+
+    <ul>
+        <li><%= "#{Vehicle.find(k).make} #{Vehicle.find(k).model}" %> <%= "#{v} Miles from #{Vehicle.find(k).origin} to #{Vehicle.find(k).destination}" %></li>
+    </ul>
+
+<p>
+    <strong>Order Total:</strong> <%= number_to_currency @order.grand_total %>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div><%end%></div></div>

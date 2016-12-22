@@ -1,0 +1,53 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  minimumPossibleWeight: 1.5
+  maximumPossibleWeight: 1.5
+  vinNumber: MyString
+  origin: MyString
+  destination: MyString
+  yearManufactured: 1
+  make: MyString
+  model: MyString
+  payloadEmptyWeight: 1.5
+  originLocation: MyString
+  currentLocation: MyString
+  destinationLocation: MyString
+  weightCapacity: MyString
+  yearAquired: 1
+  carFax: MyText
+  maintenanceHistory: MyText
+  nextMaintenance: MyText
+  highwayMPG: 1.5
+  cityMPG: 1.5
+  avgMPG: 1.5
+  scheduledDepartureTime: MyString
+  estimatedArrivalTime: MyString
+  requestedArrivalTime: MyString
+
+two:
+  name: MyString
+  minimumPossibleWeight: 1.5
+  maximumPossibleWeight: 1.5
+  vinNumber: MyString
+  origin: MyString
+  destination: MyString
+  yearManufactured: 1
+  make: MyString
+  model: MyString
+  payloadEmptyWeight: 1.5
+  originLocation: MyString
+  currentLocation: MyString
+  destinationLocation: MyString
+  weightCapacity: MyString
+  yearAquired: 1
+  carFax: MyText
+  maintenanceHistory: MyText
+  nextMaintenance: MyText
+  highwayMPG: 1.5
+  cityMPG: 1.5
+  avgMPG: 1.5
+  scheduledDepartureTime: MyString
+  estimatedArrivalTime: MyString
+  requestedArrivalTime: MyString

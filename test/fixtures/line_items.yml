@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  vehicle_id: 1
+  bid_total: 9.99
+  order_id: 1
+  dispatch_date: MyString
+
+two:
+  vehicle_id: 1
+  bid_total: 9.99
+  order_id: 1
+  dispatch_date: MyString

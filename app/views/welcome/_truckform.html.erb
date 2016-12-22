@@ -1,0 +1,19 @@
+<%= form_for(delivery_truck, :remote => true,:authenticity_token => true) do |f| %>
+  <% if delivery_truck.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
+
+      <ul>
+      <% delivery_truck.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.select(:currentState,{},{:include_blank => f.object.currentState},{:onChange => "javascript: this.form.button.click();"}) do %>
+    <% [['Available', 'Available'], ['Queued',"Queued"], ['Dispatched', 'Dispatched']].each do |c| -%>
+      <%= content_tag(:option, c.first, value: c.last)  %>
+    <% end %>
+  <% end %>
+	<%= f.submit "Add to Cart", class: "btn btn-primary", id: "button" %>
+<% end %>

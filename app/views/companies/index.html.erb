@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-sm-2 no-float">
+    <ul class="nav navbar-side">
+        <li class="active nav navbar navbar-nav"> <a href="#home" data-target="#home" data-toggle="tab">Home</a></li>
+        <li class="active nav navbar navbar-nav"><a href="#cargo" data-target="#cargo" data-toggle="tab">Contracts</a></li>
+        <li class="active nav navbar navbar-nav"><br /> <br /><%= link_to "New Company", new_company_path %></li>
+    </ul>
+  </div>
+  <div class="col-sm-10">
+    <div class="tab-content">
+      <div class="tab-pane active" id="home">
+          <h3>Companies</h3>
+          <table class="table-striped sortable autobox" style="width: 95%">
+            <thead>
+                <th>Company Name</th>
+                <th>Address</th>
+                <th>Custom ID</th>
+                <th>Edit/Destroy</th>
+            </thead>
+            <tbody>
+            <% @companies.each do |company| %>
+              <tr>
+                <td><%= link_to company.companyName, company%></td>
+                <td><%= company.companyAddress %></td>
+                <td><%= company.companyCustomId %></td>
+                <td>
+                  <%= link_to edit_company_path(company) do %><i class= "fa fa-pencil"> Edit </i><% end %>
+                <%= link_to company, method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-trash"> Destroy </i><%end%></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <br />
+        </div>
+        </div>
+        <div class="tab-pane" id="routetab"> 
+          <div class="col-md-6">
+            <div id="directions-panel"></div>
+          </div>
+          <div class="tab-pane" id="cargo">  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

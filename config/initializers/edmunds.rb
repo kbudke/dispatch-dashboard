@@ -1,0 +1,1 @@
+Rails.configuration.edmunds_vehicle_api_key = "rt9n3nwknegxj49ekdkbft48"

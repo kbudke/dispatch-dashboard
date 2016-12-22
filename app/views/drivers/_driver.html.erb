@@ -1,0 +1,12 @@
+<tr>
+	<td><%= link_to driver.driver_name, driver %></td>
+	<td><%= driver.email %> </td>
+	<td><%= driver.phone_number %> </td>
+	<td><%= link_to edit_driver_path(driver) do %>
+				<i class="fa fa-pencil"></i>Edit
+			<% end %>
+			<%= link_to driver, remote: true, method: :delete, data: { confirm: 'Are you sure?' } do %>
+				<i class="fa fa-trash"></i>Delete
+			<% end %>
+	</td>
+	</tr>

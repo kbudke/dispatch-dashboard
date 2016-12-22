@@ -1,0 +1,2 @@
+json.extract! delivery_truck, :id, :name, :minimumPossibleWeight, :maximumPossibleWeight, :vinNumber, :origin, :destination, :yearManufactured, :make, :model, :payloadEmptyWeight, :originLocation, :currentLocation, :destinationLocation, :weightCapacity, :yearAquired, :carFax, :maintenanceHistory, :nextMaintenance, :highwayMPG, :cityMPG, :avgMPG, :scheduledDepartureTime, :estimatedArrivalTime, :requestedArrivalTime, :created_at, :updated_at
+json.url delivery_truck_url(delivery_truck, format: :json)

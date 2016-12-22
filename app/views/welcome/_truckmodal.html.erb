@@ -1,0 +1,53 @@
+<div class="modal fade" id="myModal<%=truck.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="order_table">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Pending Load Configuration</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table-striped sortable autobox" width="100%">
+          <thead>
+            <th>Vehicle</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Weight</th>
+            <th>Action</th>
+            <th>Confirm Vehicle</th>
+          </thead>
+          <tbody>  
+
+            <% @vehicles.each do |vehicle|%>
+              <% if vehicle.truck_id.to_s == truck.id.to_s && vehicle.currentState != "Dispatched"%>
+                  <tr>   
+                  <td><%= link_to vehicle.name, vehicle %></h5></td>
+                  <td><%= vehicle.origin %></td>
+                  <td><%= vehicle.destination %></td>
+                  <td><%= vehicle.actualWeight %></h5></td>
+                  <td><%= render 'form', vehicle: vehicle %></td>
+                  <% time = Time.new %>
+                  <!-- dont miss this do here -->
+                  <%= form_tag add_to_cart_path, :remote => true do %>
+                    <%= hidden_field_tag :vehicle_id, vehicle.id %>
+                    <%= hidden_field_tag :bid_total, vehicle.distance.to_i %>
+                    <%= hidden_field_tag :dispatch_date, (time.month.to_s+"/"+time.day.to_s + "/" +time.year.to_s) %>
+                    <%= hidden_field_tag :order_id, (vehicle.truck_id.to_s+(time.year.to_s+time.month.to_s+time.day.to_s)).to_i %>
+                    <%= hidden_field_tag :truck_id, vehicle.truck_id.to_s %>
+                  <% end %>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+        <br /> <div class="pull-right">Assign Driver : <%= select_tag "drivers", options_from_collection_for_select(@drivers, "id", "driver_name"),:prompt => "Select Driver"%></div>
+        <%= submit_tag "Confirm Vehicle", class: "btn btn-primary" %>
+        <br />
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel Order</button>
+         <%= link_to "Finalize Load", view_order_path, class: "btn btn-primary" %>
+      </div>
+    </div>                  
+  </div>
+</div>

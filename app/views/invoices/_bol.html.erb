@@ -1,0 +1,288 @@
+
+  <ul class="nav nav-tabs">
+    <% @order.order_items.each do |k,v| %>
+      <li><a data-target="#<%= Vehicle.find(k).make %>" data-toggle="tab"><%= "#{Vehicle.find(k).make.capitalize} #{Vehicle.find(k).model.capitalize}" %></a></li>
+    <% end %>
+  </ul>
+    <div class="tab-content">
+      <% first = true %>
+      <% @order.order_items.each do |k,v| %>
+        <% @vehicle = Vehicle.find(k) %>
+        <% if first == true %>
+          <div class="tab-pane active" id="<%= Vehicle.find(k).make%>">
+            <% first = false %>
+        <% else %>
+          <div class="tab-pane" id="<%= Vehicle.find(k).make %>">
+          <%end%>
+          <div style="margin-left:50px;margin-right:50px;">
+          <div class="row">
+            <div class="col-md-12">
+            <div class="row">
+              <div class="col-xs-6">
+                <h1>Bill of Lading</h1>
+                  Diamond Dispatch <br>
+                  123 Big Walkway <br>
+                  Atlanta, Georgia 30800 <br>
+                  Phone: (678) 555-5555 <br>
+                  Email: Dispatch@tts.com <br>
+                  Fax: 678-444-4444 
+                <h1><small>Load ID: #001</small></h1>
+              </div>
+              <div class="col-xs-6 text-right" style="text-align: center;vertical-align: middle;">
+              <br/>
+                  <%= image_tag("DD-logo.jpg", :alt => "Diamond Dispatch Logo", :style => "max-height: 200px;max-width:600px") %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h5>Origin: <a href="#"><%= current_user.username %></a></h5>
+                  </div>
+                  <div class="panel-body">
+                    <p>
+                      <strong>Address: </strong> <%= Company.find(@vehicle.company_id).companyAddress %><br>
+                      <br>
+                      <strong>Contact: </strong> Sales Manager <br>
+                      <br>
+                      <strong>Phone: </strong>  <%= current_user.phone_number %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h5>Destination: <a href="#">Client Name</a></h5>
+                    </div>
+                    <div class="panel-body">
+                    <p>
+                        <strong>Address: </strong> <%= Company.find(@vehicle.company_id).companyAddress %><br>
+                        <br>
+                        <strong>Contact: </strong> Sales Manager <br>
+                        <br>
+                        <strong>Phone: </strong>  <%= current_user.phone_number %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- / end client details section -->
+          <div class="row">
+          <div class="col-xs-12">
+          <table class="table table-bordered">
+            <thead text= "black">
+             
+                <th>
+                  <h5>Year </h5>
+                </th>
+            
+                <th>
+                  <h5>Make / Model </h5>
+                </th>
+            
+                <th>
+                  <h5>Type </h5>
+                </th>
+             
+                <th>
+                  <h5>Color </h5>
+                </th>
+          
+                  <th>
+                  <h5>VIN</h5>
+                </th>
+           
+            </thead>
+            <tbody>
+              <tr>
+                <td><%= @vehicle.yearManufactured %></td>
+                <td><%= @vehicle.make.capitalize %> <%= @vehicle.model.capitalize %></td>
+                <td><%=  %></td>
+                <td><%=  %></td>
+                <td> <%= @vehicle.vinNumber %></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          </div>        
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h5>Odometer: </h5>
+                </div>
+                <div class="panel-body">
+                 <p>
+                   - info here
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h5>Inspection Notes: </h5>
+                </div>
+                <div class="panel-body">
+                  <p>
+                     Damaged notes here.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+              <div class="col-xs-12">
+               <%= image_tag("vehicle-dmg-example.png",{:alt => "Damaged @vehicle mark up", style: "width:100%; margin-bottom: 15px;"}) %>
+               </div>
+                <div class="col-xs-6">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <h5>Origin Signature / Oct 31, 2016 / Sales Manager</h5>
+                    </div>
+                    <div class="panel-body">
+                      <p>Signature Here</p>
+                    </div>
+                    <div class="panel-body">
+                      <p>Driver Signature Here</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="span7">
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        <h5>Destination Signature / Oct 31, 2016 / Kyle B</h5>
+                      </div>
+                      <div class="panel-body">
+                        <p>
+                         <a href="https://"><%= current_user.username %> </a>
+                        </p>
+                      </div>
+                       <div class="panel-body">
+                        <p>
+                         Driver Signature Here
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size: .8em;">
+            AUTO TRANSPORT TERMS AND CONDITIONS
+            Auto-Dispatch-Logistics hereinafter referred to as “Carrier” will not be responsible for any damage not resulting from
+            Carrier negligence. During Transport,
+            @vehicles and @vehicle equipment may cease to operate properly through no fault of the Carrier.
+            1. By shippers signature or his/her agents signature, Carrier and agents, jointly and separately are authorized to operate
+            and transport @vehicles(s) from the Point
+            of Origin specified to the point of departure and to the specified destination via any mode.
+            2. Personal belongings are not to be transported inside @vehicle. Carrier shall not be responsible for loss or damage to
+            personal belongings, including any “personal
+            property” left in the @vehicle, including loss or damage to stereo equipment, and to any non-stock items of the @vehicle, nor
+            will carrier be responsible for damages
+            caused to @vehicle(s) by personal property left inside @vehicle.
+            3. Shipper must furnish carrier with necessary keys to @vehicle and all compartments. Shipper is responsible for completely
+            disarming alarm/security system by
+            any means effective.
+            4. No delivery time is guaranteed. All delivery dates are only estimates of normal deliveries (delays may occur).
+            Transporter does not agree to transport shipment
+            in time for any particular market or event and will not be responsible for damages occasioned by unavoidable delay.
+            There are absolutely no guarantees made,
+            expressed, or implied, regarding delivery time or dates.
+            5. No auto rental will be honored (for delays, damage, or accidents). No exceptions.
+            PAYMENT TERMS
+            1. Shipper shall pay all cost, including storage, and additional delivery costs, incurred as a result of shippers breach of
+            any obligation under this agreement including
+            inability to provide sufficient funds due, and inability to be present for accepting @vehicle. Consignee agrees to meet the
+            transporters driver at any specified time
+            and place. In the event of a payment dispute between Shipper and Consignee, the party responsible for placing this order
+            bears 100% responsibility for payment of
+            this invoice.
+            2. Upon acceptance, shipper and receiver of @vehicle(s) are jointly liable for all charges due for shipment. They will be
+            responsible to pay all cost of collections, to
+            include, but not limited to, court costs and attorneys fees with interest at a periodic rate of 1.5% per month or 18% per
+            year.
+            3. Consignee is responsible to be at scheduled delivery point at specified time and place. If Consignee is unable to be at
+            the scheduled pickup point, he/she will
+            be charged $100.00 a day storage fee. Carrier will not be held liable for any non-use of the @vehicle charges, including, but
+            not limited to auto rentals, interest, or
+            any other charges due to delay or damage to @vehicle.
+            4. Shipper shall pay an additional fee to be determined by the carrier for each inoperable @vehicle. If @vehicle is rendered for
+            shipment and after becomes non-operational,
+            the fee will be assessed as well as any other charges incurred to accomplish delivery, including, but not limited to
+            Wreckers, Forklifts, Roll-backs, etc.
+            5. Nothing in the agreement binds carrier to pick up and/or deliver to locations from which it is impractical to operate
+            Carriers equipment because of inadequacies
+            of highway, street, or passageways for loading or unloading facilities, or due to local, state or federal law.
+            6. If @vehicle is vandalized either during shipment or while awaiting shipment, Carrier will not be held responsible; owner
+            will have to submit a claim to his/her own
+            insurance or absorb the loss. Shipper agrees that his/her @vehicle is insured and his/her insurance has primary
+            responsibility.
+            7. In the event of @vehicle damage, payment must be collected at the time of delivery prior to making any claims.
+            CARRIER OR ITS AGENTS SHALL NOT BE LIABLE FOR THE FOLLOWING:
+            A. Damage cause by leaking fluids, battery acids, cooling system and anti-freeze solution, industrial fallout or damage
+            caused by acts of God or force majored.
+            B. Hidden damage or damage that is undetectable at time of pickup due to @vehicles dirty condition, or weather-related
+            condition.
+            C. Any glass damage.
+            D. Mechanical or electrical functions and damage caused by falling mechanics, electrical demise, alignment or
+            suspension, exhaust assembly, any exhaust system,
+            muffler, or tail pipes. No exceptions.
+            E. Under carriage damage, and damage resulting from overloaded or lowered @vehicles.
+            F. Shipper is responsible for preparing @vehicle for shipment. Securing loose parts, mufflers or tail pipes, spoilers, nonstock
+            kit additions, antennas, and switches.
+            Any part that falls off during transport is the customers responsibility, as are leaking fluids, including damages cause by
+            said parts or fluids to any and all other
+            @vehicles involved. It is the customers responsibility to notify the Carrier of any and all fluid leaks.
+            G. DAMAGE TO @vehicle CAUSED BY: a) @vehicle that cannot be driven on or off transport truck under its own power
+            and/or B) @vehicle having defective or insufficient
+            brake, parking brake, or parking gear.
+            H. Damage caused by freezing of engine, or cooling system or batteries.
+            I. Damage caused to @vehicle from tie downs breaking or tearing.
+            J. Any convertible tops that are loose, torn, or show extensive wear, bras, and/or any type of canvas or material
+            coverings.
+            K. The Carrier WILL NOT be responsible for damage NOT caused by the driver.
+            L. The customer agrees that their @vehicle is insured and their insurance has primary responsibility.
+            1. Claims must be made in writing within 24 hours from time of delivery. Any damage must be noted on the Bill of lading at
+            the time of delivery without exception.
+            All claims for hidden damage must be made in writing and sent certified mail within 48 hours after delivery of the @vehicle.
+            Hidden damage shall mean only those
+            losses or damages to parts contained completely, within the underside of a @vehicle that should require the @vehicle be
+            hoisted on a lift in order to be viewed and
+            identified. The party claiming hidden damage has the burden of proving that the hidden damage did not exist prior to
+            Carriers receipt of the @vehicle(s) and that the
+            claim relates to one for hidden damage and is otherwise proper. Pictures and two (2) estimates for repair should be sent
+            as soon as possible. All claims are subject
+            to a Deductible, and will be settled at actual cost.
+            2. Repairable Losses-Bids. Shipper agrees that the amount of a claim for a repairable loss shall be established by a
+            competitive bid process. The amount of the
+            repairable loss shall be considered the lowest bid amount from two (2) competing qualified automobile body repair shops.
+            Alternatively, if a Carrier elects, it may
+            obtain an appraisal of the amount of the repairable loss from an independent automobile insurance adjustment company.
+            A qualified body shop shall include any
+            auto body repair shop owned by a franchised dealer of the manufacturer of the @vehicle for which loss is being claimed.
+            Carrier may, at its option, elect to accept
+            a single bid presented by the claimant as the most cost effective settlement available and so elect to accept that bid as
+            the amount of the claim. The payment by
+            the Carrier of any claim presented by shipper shall be deemed the full and final resolution of the claim. The shipper shall
+            release Carrier from any further liability
+            involving that same @vehicle upon payment of the claim.
+            3. Total Losses. The Carriers limit of liability for any total loss @vehicle(s) shall be actual cost of any verifiable expense
+            thereon, including Carriers freight charges
+            thereon. With respect to any total loss @vehicle(s), the Carrier shall not be responsible for any lost profit.
+            4. Venue. It is the intention of the parties hereto that this agreement and performance hereunder and all suits and special
+            proceedings hereunder shall be
+            constructed in accordance with under pursuant to the laws of the State of Georgia (unless prompted by applicable federal
+            law), and that any action, special proceedings,
+            or other proceedings that may be brought arising out of, in connection with, or by reason of this agreement. The laws of
+            the State of Georgia shall be
+            applicable (unless preempted by applicable federal law) and shall govern the exclusion if the laws of any other forum
+            without regard to the jurisdiction in which any
+            action or special proceedings many be instituted. Further, the parties hereby agree that the venue for any action brought
+            by either party against the other shall be
+            in the district court for the county of Forsyth, State of Georgia, and any other venue is hereby waived.<br/><br /><br/></div>
+          </div>
+          </div>
+</div></div>
+          <% end %>
+        </div>
